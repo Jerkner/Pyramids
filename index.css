@@ -47,8 +47,7 @@ main {
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 100%;
-    transform: translateY(25%);
+    transform: translateY(20%);
 }
 
 .card {
@@ -64,9 +63,19 @@ img {
     height: 100%;
 }
 
+p {
+    text-align: center;
+    display: flex;
+    justify-content: space-evenly;
+    height: 7vw;
+    aspect-ratio: 5 / 7;
+    padding: 0 0.125em;
+}
+
 p,
 button {
-    font-size: min(0.825em, 3vw);
+    font-size: 1vw;
+    background-color: aliceblue;
 }
 
 .row {
@@ -95,7 +104,8 @@ button {
 #deckCard {
     width: 100%;
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    flex-direction: row;
     text-align: center;
 }
 
@@ -170,5 +180,10 @@ button {
 
     .card {
         height: 14vw;
+    }
+
+    p {
+        height: 100%;
+        width: 7vw;
     }
 }

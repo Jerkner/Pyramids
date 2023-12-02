@@ -51,7 +51,7 @@ function renderDeckCard() {
             : "Back.png"
     const cardHtml = `<div class="card" id="deckCard">
                         <img src="${imageSrc}" />
-                        <p><span class="remaining">${cardsInDeck} remaining</span>Click deck to draw card</p>
+                        <p>Click deck to draw card<span class="remaining">${cardsInDeck} remaining</span></p>
                     </div>`
 
     deckEl.innerHTML = cardHtml

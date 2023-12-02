@@ -8,21 +8,21 @@
 }
 
 html {
-    background-color: #7e7e7e;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
     min-width: 100vw;
+    min-height: 100vh;
+    background-color: #7e7e7e;
     user-select: none;
 }
 
 body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 main {
@@ -30,94 +30,75 @@ main {
     flex-direction: column;
     justify-content: center;
     position: relative;
-    background-image: url("pyramid.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    padding: 30px;
-    border-radius: 7px;
-    min-width: min-content;
     width: 80vw;
     max-width: 800px;
+    min-width: min-content;
     height: 80vh;
     max-height: 100%;
+    padding: 30px;
+    border-radius: 7px;
+    background-image: url("pyramid.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     overflow: hidden;
 }
 
 #cardContainer {
-    position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    position: relative;
     width: 100%;
     height: 100%;
-    transform: translateY(15%);
+    transform: translateY(10%);
 }
 
 .card {
+    height: 7vw;
     border-inline-style: black solid 0.2px;
     pointer-events: all;
-    height: 7vw;
     aspect-ratio: 5 / 7;
 }
 
 img {
-    border-radius: 7px;
     width: 100%;
     height: 100%;
+    border-radius: 7px;
 }
 
 p {
-    text-align: center;
     display: flex;
     justify-content: space-evenly;
     height: 7vw;
-    aspect-ratio: 5 / 7;
     padding: 0 0.125em;
+    text-align: center;
+    aspect-ratio: 5 / 7;
 }
 
 p,
 button {
-    font-size: 0.875vw;
     background-color: #7e7e7e;
     font-family: "Rye", serif;
-}
-
-.row {
-    display: flex;
-    justify-content: center;
-    pointer-events: none;
-    width: 100%;
-    height: 100%;
-    gap: 2%;
-}
-
-.empty {
-    z-index: -1;
-    border: none;
-    pointer-events: none;
+    font-size: 0.875vw;
 }
 
 #deck {
-    background-color: #7e7e7e;
     position: absolute;
-    top: 0;
     left: 0;
+    top: 0;
     z-index: 5;
     border-radius: 7px;
-    cursor: pointer;
-}
-
-.clickable {
+    background-color: #7e7e7e;
     cursor: pointer;
 }
 
 #deckCard {
-    width: 100%;
     display: flex;
-    align-items: center;
     flex-direction: row;
+    align-items: center;
+    width: 100%;
     text-align: center;
 }
 
@@ -128,51 +109,36 @@ p {
     border-radius: 7px;
 }
 
-.remaining {
-    font-weight: 700;
-}
-
 .restart {
     position: absolute;
-    top: 0;
     right: 0;
-    border: none;
-    background-color: #7e7e7e;
+    top: 0;
     margin: 0 auto;
-    border-radius: 7px;
     padding: 0.5em 1em;
+    border: none;
+    border-radius: 7px;
+    background-color: #7e7e7e;
     cursor: pointer;
 }
 
 .win {
-    font-size: 1.5em;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
     align-items: center;
+    justify-content: space-evenly;
+    font-size: 1.5em;
 }
 
-/* .row1 {
-    transform: translateY(-50%);
-}
-.row2 {
-    transform: translateY(-100%);
-}
-.row3 {
-    transform: translateY(-150%);
-}
-.row4 {
-    transform: translateY(-200%);
-}
-.row5 {
-    transform: translateY(-250%);
-}
-.row6 {
-    transform: translateY(-300%);
-} */
+/* Rows */
 
 .row {
+    display: flex;
+    justify-content: center;
     position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    gap: 2%;
 }
 
 .row0 {
@@ -185,23 +151,43 @@ p {
 }
 
 .row2 {
-    top: 20%; /* Move up by 1/6 (16.666%) of container height */
+    top: 20%;
 }
 
 .row3 {
-    top: 30%; /* Move up by 2/6 (33.333%) of container height */
+    top: 30%;
 }
 
 .row4 {
-    top: 40%; /* Move up by 3/6 (50%) of container height */
+    top: 40%;
 }
 
 .row5 {
-    top: 50%; /* Move up by 4/6 (66.666%) of container height */
+    top: 50%;
 }
 
 .row6 {
-    top: 60%; /* Move up by 5/6 (83.333%) of container height */
+    top: 60%;
+}
+
+/* Utils */
+
+.clickable {
+    cursor: pointer;
+}
+
+.overflow-hidden {
+    overflow: hidden;
+}
+
+.remaining {
+    font-weight: 700;
+}
+
+.empty {
+    z-index: -1;
+    border: none;
+    pointer-events: none;
 }
 
 @media (max-width: 800px) {

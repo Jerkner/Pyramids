@@ -48,6 +48,7 @@ function renderDeckCard() {
             : drawnCard && drawnCard.image
             ? drawnCard.image
             : "Back.png"
+
     const pText = cardsInDeck
         ? `<p>Click to draw a card<span class="remaining">${cardsInDeck} remaining</span></p>`
         : `<p>Click here to play again</p>`
@@ -55,6 +56,10 @@ function renderDeckCard() {
                         ${pText}
                         <img src="${imageSrc}" />
                     </div>`
+
+    if (cardsInDeck === 0) {
+        deckEl.classList.add("overflow-hidden")
+    }
 
     deckEl.innerHTML = cardHtml
 }

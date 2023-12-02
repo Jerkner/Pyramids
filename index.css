@@ -8,12 +8,13 @@
 }
 
 html {
-    background-color: aliceblue;
+    background-color: #7e7e7e;
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
     min-width: 100vw;
+    user-select: none;
 }
 
 body {
@@ -29,14 +30,17 @@ main {
     flex-direction: column;
     justify-content: center;
     position: relative;
-    background-color: rgb(0, 100, 0);
+    background-image: url("pyramid.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
     padding: 30px;
     border-radius: 7px;
     min-width: min-content;
     width: 80vw;
     max-width: 800px;
     height: 80vh;
-    max-height: 600px;
+    max-height: 100%;
     overflow: hidden;
 }
 
@@ -47,7 +51,8 @@ main {
     justify-content: center;
     align-items: center;
     width: 100%;
-    transform: translateY(20%);
+    height: 100%;
+    transform: translateY(15%);
 }
 
 .card {
@@ -74,8 +79,9 @@ p {
 
 p,
 button {
-    font-size: 1vw;
-    background-color: aliceblue;
+    font-size: 0.875vw;
+    background-color: #7e7e7e;
+    font-family: "Rye", serif;
 }
 
 .row {
@@ -90,15 +96,21 @@ button {
 .empty {
     z-index: -1;
     border: none;
+    pointer-events: none;
 }
 
 #deck {
-    background-color: aliceblue;
+    background-color: #7e7e7e;
     position: absolute;
     top: 0;
     left: 0;
     z-index: 5;
-    border-radius: 7px 7px 0 0;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+.clickable {
+    cursor: pointer;
 }
 
 #deckCard {
@@ -109,11 +121,11 @@ button {
     text-align: center;
 }
 
-#deckCard p {
-    background-color: aliceblue;
+p {
     display: flex;
     flex-direction: column;
-    border-radius: 0 0 7px 7px;
+    padding-left: 2px;
+    border-radius: 7px;
 }
 
 .remaining {
@@ -125,10 +137,11 @@ button {
     top: 0;
     right: 0;
     border: none;
-    background-color: aliceblue;
+    background-color: #7e7e7e;
     margin: 0 auto;
     border-radius: 7px;
     padding: 0.5em 1em;
+    cursor: pointer;
 }
 
 .win {
@@ -139,7 +152,7 @@ button {
     align-items: center;
 }
 
-.row1 {
+/* .row1 {
     transform: translateY(-50%);
 }
 .row2 {
@@ -156,6 +169,39 @@ button {
 }
 .row6 {
     transform: translateY(-300%);
+} */
+
+.row {
+    position: absolute;
+}
+
+.row0 {
+    position: relative;
+    transform: translateY(0);
+}
+
+.row1 {
+    top: 10%;
+}
+
+.row2 {
+    top: 20%; /* Move up by 1/6 (16.666%) of container height */
+}
+
+.row3 {
+    top: 30%; /* Move up by 2/6 (33.333%) of container height */
+}
+
+.row4 {
+    top: 40%; /* Move up by 3/6 (50%) of container height */
+}
+
+.row5 {
+    top: 50%; /* Move up by 4/6 (66.666%) of container height */
+}
+
+.row6 {
+    top: 60%; /* Move up by 5/6 (83.333%) of container height */
 }
 
 @media (max-width: 800px) {
@@ -165,8 +211,8 @@ button {
     }
 
     main {
-        height: 80vw;
-        width: 80vh;
+        height: 100vw;
+        width: 100vh;
     }
 
     #cardContainer {

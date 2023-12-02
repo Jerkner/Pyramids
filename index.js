@@ -36,12 +36,11 @@ async function drawNextCard() {
 
     cardsInDeck -= 1
     renderDeckCard()
-    console.log(cardsInDeck)
 }
 
 function renderDeckCard() {
     const deckEl = document.getElementById("deck")
-    deckEl.addEventListener("click", drawNextCard)
+    deckEl.addEventListener("click", cardsInDeck ? drawNextCard : resetGame)
 
     const imageSrc =
         cardsInDeck === 0
@@ -49,9 +48,12 @@ function renderDeckCard() {
             : drawnCard && drawnCard.image
             ? drawnCard.image
             : "Back.png"
+    const pText = cardsInDeck
+        ? `<p>Click to draw a card<span class="remaining">${cardsInDeck} remaining</span></p>`
+        : `<p>Click here to play again</p>`
     const cardHtml = `<div class="card" id="deckCard">
+                        ${pText}
                         <img src="${imageSrc}" />
-                        <p>Click deck to draw card<span class="remaining">${cardsInDeck} remaining</span></p>
                     </div>`
 
     deckEl.innerHTML = cardHtml
@@ -82,6 +84,7 @@ function renderCards() {
                 const relatedCards = relationships[cardIndex]
                 const areRelatedNull = areRelatedCardsNull(relatedCards)
                 cardImageSrc = areRelatedNull ? card.image : "Back.png"
+                cardClass = areRelatedNull ? "card clickable" : "card"
             }
 
             rowsHTML += `<div class="${cardClass}">
@@ -128,8 +131,8 @@ function renderCards() {
                 } else {
                     cardElement.classList.remove("empty")
                 }
-                renderDeckCard()
                 renderCards()
+                renderDeckCard()
             }
         }
     })
@@ -148,8 +151,6 @@ function resetGame() {
 
 function checkWin() {
     if (cardsArray.filter((card) => card !== null).length == 0) {
-        console.log("win")
-
         mainEl.innerHTML = `<div class="win">
             <h1>Congratulations!</h1>
             <p>Click the button below to play again.</p>

@@ -174,7 +174,7 @@ function toggleRules(event) {
     const rulesHTML = `
         <div class="rules-modal">
             <p>
-                Clear all cards by selecting ones adjacent by one value (higher or lower) than the face-up card; reveal face-down cards after the top two are played.<br><br> If no valid moves in the pyramid, draw from the pile for a new target card.
+                Clear all cards in the pyramid by playing cards adjacent by 1 (higher or lower) than the face-up card; reveal face-down cards by playing the cards overlapping them. Ace can be both high and low.<br><br>If there are no valid plays in the pyramid, draw from the pile for a new card.
             </p>
         </div>
     `

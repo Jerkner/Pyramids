@@ -251,7 +251,10 @@ img {
 
     .deck-card p {
         font-size: 1.66vw;
-        word-wrap: break-word;
+    }
+
+    .deck-card p span {
+        width: 100%;
     }
 
     .rules-modal p {

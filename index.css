@@ -253,8 +253,9 @@ img {
         font-size: 1.66vw;
     }
 
-    .break {
-        min-width: 100%;
+    .remaining {
+        display: flex;
+        flex-direction: column;
     }
 
     .rules-modal p {

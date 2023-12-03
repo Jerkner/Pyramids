@@ -228,6 +228,7 @@ img {
     main {
         height: 100vw;
         width: 100vh;
+        padding: 0;
     }
 
     #cardContainer {
@@ -245,6 +246,7 @@ img {
 
     .btn {
         font-size: 0.55em;
+        padding: 0.75em 1.5em;
     }
 
     .deck-card p {

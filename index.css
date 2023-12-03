@@ -5,6 +5,7 @@
     padding: 0;
     box-sizing: border-box;
     /* border: red solid 1px; */
+    font-family: "Rye", serif;
 }
 
 html {
@@ -31,7 +32,6 @@ main {
     justify-content: center;
     position: relative;
     width: 80vw;
-    max-width: 800px;
     min-width: min-content;
     height: 80vh;
     max-height: 100%;
@@ -47,8 +47,6 @@ main {
 #cardContainer {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
     position: relative;
     width: 100%;
     height: 100%;
@@ -56,7 +54,7 @@ main {
 }
 
 .card {
-    height: 7vw;
+    height: 10vw;
     border-inline-style: black solid 0.2px;
     pointer-events: all;
     aspect-ratio: 5 / 7;
@@ -65,47 +63,26 @@ main {
 img {
     width: 100%;
     height: 100%;
-    border-radius: 7px;
 }
 
-p {
+.deck-container {
+}
+
+.deck-card {
     display: flex;
-    justify-content: space-evenly;
-    height: 7vw;
-    padding: 0 0.125em;
-    text-align: center;
-    aspect-ratio: 5 / 7;
-}
-
-p,
-button {
-    background-color: #7e7e7e;
-    font-family: "Rye", serif;
-    font-size: 0.875vw;
-}
-
-#deck {
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: 5;
-    border-radius: 7px;
-    background-color: #7e7e7e;
     cursor: pointer;
-}
-
-#deckCard {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 100%;
-    text-align: center;
+    gap: 5px;
 }
 
 p {
+    aspect-ratio: 5 / 7;
+    background-color: #7e7e7e;
+    font-size: 0.875vw;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    padding-left: 2px;
+    justify-content: space-evenly;
+    text-align: center;
     border-radius: 7px;
 }
 
@@ -114,7 +91,7 @@ p {
     right: 0;
     top: 0;
     margin: 0 auto;
-    padding: 0.5em 1em;
+    padding: 1.5vh 3vw;
     border: none;
     border-radius: 7px;
     background-color: #7e7e7e;
@@ -139,11 +116,6 @@ p {
     height: 100%;
     pointer-events: none;
     gap: 2%;
-}
-
-.row0 {
-    position: relative;
-    transform: translateY(0);
 }
 
 .row1 {
@@ -206,16 +178,15 @@ p {
         width: 90vw;
     }
 
-    #deckCard {
+    /* #deckCard {
         flex-direction: row;
-    }
+    } */
 
     .card {
-        height: 14vw;
+        height: 16vw;
     }
 
     p {
         height: 100%;
-        width: 7vw;
     }
 }

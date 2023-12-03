@@ -26,16 +26,24 @@ async function fetchDeck() {
 }
 
 async function drawNextCard() {
-    const res = await fetch(
-        `https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`
-    )
-    const data = await res.json()
+    drawnCard = { image: "back.png" }
 
-    drawnCard = data.cards[0]
-    drawnCard.value = convertFaceCards(drawnCard.value)
-
-    cardsInDeck -= 1
     renderDeckCard()
+
+    try {
+        const res = await fetch(
+            `https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`
+        )
+        const data = await res.json()
+
+        drawnCard = data.cards[0]
+        drawnCard.value = convertFaceCards(drawnCard.value)
+
+        cardsInDeck -= 1
+        renderDeckCard()
+    } catch (error) {
+        console.error("Error fetching card:", error)
+    }
 }
 
 function renderDeckCard() {
@@ -52,10 +60,11 @@ function renderDeckCard() {
     const pText = cardsInDeck
         ? `<p>Click to draw a card<span class="remaining">${cardsInDeck} remaining</span></p>`
         : `<p>Click here to play again</p>`
-    const cardHtml = `<div class="card" id="deckCard">
+    const cardHtml = `<div class="card deck-card">
                         ${pText}
                         <img src="${imageSrc}" />
-                    </div>`
+                      </div>
+                    `
 
     if (cardsInDeck === 0) {
         deckEl.classList.add("overflow-hidden")
@@ -66,7 +75,7 @@ function renderDeckCard() {
 
 function renderCards() {
     let rowsHTML = `
-    <div id="deck"></div>
+    <div id="deck" class="deck-class"></div>
     <button class="restart" onClick="location.reload()">
         Restart game
     </button>

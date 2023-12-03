@@ -254,7 +254,7 @@ img {
     }
 
     .break {
-        width: 100%;
+        min-width: 100%;
     }
 
     .rules-modal p {

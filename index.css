@@ -4,7 +4,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    /* border: red solid 1px; */
     font-family: "Rye", serif;
 }
 
@@ -78,15 +77,15 @@ img {
 }
 
 .deck-card p {
-    aspect-ratio: 5 / 7;
-    background-color: #7e7e7e;
-    font-size: 0.875vw;
-    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    text-align: center;
+    height: 100%;
     border-radius: 7px;
+    background-color: #7e7e7e;
+    font-size: 0.875vw;
+    text-align: center;
+    aspect-ratio: 5 / 7;
     box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
 }
 
@@ -107,13 +106,13 @@ img {
 }
 
 .btn {
+    width: 100%;
     margin: 0 auto;
     padding: 1.5vh 3vw;
     border: none;
     border-radius: 7px;
     background-color: #7e7e7e;
     cursor: pointer;
-    width: 100%;
     box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
 }
 
@@ -122,9 +121,9 @@ img {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 10%;
-    font-size: 1.5em;
     height: 100%;
+    font-size: 1.5em;
+    gap: 10%;
 }
 
 .win p {
@@ -132,8 +131,8 @@ img {
 }
 
 .restart-btn {
-    padding: 1.5vh 3vw;
     max-width: min-content;
+    padding: 1.5vh 3vw;
     white-space: nowrap;
 }
 
@@ -176,25 +175,25 @@ img {
 /* Modal */
 
 .rules-modal {
-    position: absolute;
-    transform: translate(-50%, -50%);
-    top: 50%;
-    left: 50%;
-    height: 40%;
-    width: 50%;
-    background-color: white;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 50%;
+    height: 40%;
     border-radius: 7px;
+    background-color: white;
+    transform: translate(-50%, -50%);
     box-shadow: 0 0 0 100vw rgba(0, 0, 0, 0.33), 0 0 0 100vh rgba(0, 0, 0, 0.33);
 }
 
 .rules-modal p {
     width: 100%;
+    padding: 1em;
     font-size: 1.33vw;
     text-align: center;
-    padding: 1em;
     user-select: text;
 }
 

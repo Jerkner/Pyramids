@@ -1,4 +1,5 @@
 const mainEl = document.getElementById("main")
+const rulesEl = document.getElementById("rules")
 const cardContainerEl = document.getElementById("cardContainer")
 import relationships from "./relationships.js"
 import convertFaceCards from "./utils.js"
@@ -58,8 +59,8 @@ function renderDeckCard() {
             : "Back.png"
 
     const pText = cardsInDeck
-        ? `<p>Click to draw a card<span class="remaining">${cardsInDeck} remaining</span></p>`
-        : `<p>Click here to play again</p>`
+        ? `<p>Click to<br>draw a card<span class="remaining">${cardsInDeck} remaining</span></p>`
+        : `<p>You are out of cards.<br><br>Click here to play again.</p>`
     const cardHtml = `<div class="card deck-card">
                         ${pText}
                         <img src="${imageSrc}" />
@@ -76,10 +77,16 @@ function renderDeckCard() {
 function renderCards() {
     let rowsHTML = `
     <div id="deck" class="deck-class"></div>
-    <button class="restart" onClick="location.reload()">
-        Restart game
-    </button>
-`
+    <div class="buttons">
+        <button class="btn" onClick="location.reload()">
+            Restart game
+        </button>
+        <button class="btn" id="rulesBtn">
+            Rules
+        </button>
+    </div>
+    `
+
     let cardIndex = 0
 
     for (let i = 0; i < 7; i++) {
@@ -111,12 +118,15 @@ function renderCards() {
     }
 
     cardContainerEl.innerHTML = rowsHTML
+    const rulesBtn = document.getElementById("rulesBtn")
+    rulesBtn.addEventListener("click", toggleRules)
 
     cardContainerEl.addEventListener("click", function (event) {
         const cardIndex = parseInt(event.target.dataset.cardIndex)
         checkWin()
 
         if (
+            drawnCard &&
             !isNaN(cardIndex) &&
             areRelatedCardsNull(relationships[cardIndex]) &&
             cardsArray[cardIndex] &&
@@ -151,11 +161,34 @@ function renderCards() {
         }
     })
 }
+
 function areRelatedCardsNull(cardIndices) {
     return cardIndices.every(
         (index) => index === null || cardsArray[index] === null
     )
 }
+
+function toggleRules(event) {
+    event.stopPropagation()
+
+    const rulesHTML = `
+        <div class="rules-modal">
+            <p>
+                Clear all cards by selecting ones adjacent by one value (higher or lower) than the face-up card; reveal face-down cards after the top two are played.<br><br> If no valid moves in the pyramid, draw from the pile for a new target card.
+            </p>
+        </div>
+    `
+
+    if (!rulesEl.contains(event.target)) {
+        rulesEl.innerHTML = rulesEl.innerHTML ? "" : rulesHTML
+    }
+}
+
+document.addEventListener("click", function (event) {
+    if (rulesEl.innerHTML && !rulesEl.contains(event.target)) {
+        rulesEl.innerHTML = ""
+    }
+})
 
 fetchDeck()
 
@@ -164,11 +197,11 @@ function resetGame() {
 }
 
 function checkWin() {
-    if (cardsArray.filter((card) => card !== null).length == 0) {
+    if (cardsArray.filter((card) => card !== null).length == 26) {
         mainEl.innerHTML = `<div class="win">
             <h1>Congratulations!</h1>
-            <p>Click the button below to play again.</p>
-            <button id="restartBtn">Click here!</button>
+            <p>You won with ${cardsInDeck} cards left in the deck!</p>
+            <button class="btn restart-btn" id="restartBtn">Click here to play again!</button>
         </div>`
 
         const restartBtn = document.getElementById("restartBtn")

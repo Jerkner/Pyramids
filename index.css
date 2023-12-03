@@ -251,7 +251,7 @@ img {
 
     .deck-card p {
         font-size: 1.66vw;
-        white-space-collapse: break-spaces;
+        word-wrap: break-word;
     }
 
     .rules-modal p {

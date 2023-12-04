@@ -7,13 +7,13 @@ import convertFaceCards from "./utils.js"
 let cardsArray = []
 let deckId = ""
 let drawnCard = null
-let cardsInDeck = 24
+let cardsInDeck = null
 
 async function fetchDeck() {
     const deckData = await fetchCards()
     if (deckData) {
         mapCardData(deckData)
-        await drawFirstCard() // Draw the first card explicitly
+        await drawFirstCard()
         renderCards()
         renderDeckCard()
     }
@@ -26,7 +26,7 @@ async function drawFirstCard() {
         )
         const data = await res.json()
         updateDrawnCard(data)
-        cardsInDeck -= 1
+        cardsInDeck = data.remaining
     } catch (error) {
         handleCardError(error)
     }
@@ -56,13 +56,11 @@ function mapCardData(data) {
 }
 
 async function drawNextCard() {
-    drawnCard = { image: "back.png" }
     try {
         const cardData = await fetchCard()
-        console.log(cardData)
         if (cardData) {
             updateDrawnCard(cardData)
-            cardsInDeck -= 1
+            cardsInDeck = cardData.remaining
             renderDeckCard()
         }
     } catch (error) {
@@ -86,6 +84,7 @@ function updateDrawnCard(data) {
     if (data && data.cards && data.cards.length > 0) {
         drawnCard = data.cards[0]
         drawnCard.value = convertFaceCards(drawnCard.value)
+        // renderDeckCard() // Update the deck card immediately with a placeholder
     }
 }
 
@@ -96,30 +95,27 @@ function handleCardError(error) {
 function renderDeckCard() {
     const deckEl = document.getElementById("deck")
     updateEventListener(deckEl)
-    const imageSrc = determineImageSource()
     const pText = generateText()
-    const cardHtml = generateCardHtml(imageSrc, pText)
+    const cardHtml = generateCardHtml("blank.png", pText)
     handleDeckState(deckEl)
     deckEl.innerHTML = cardHtml
+
+    if (drawnCard && drawnCard.image) {
+        const img = new Image()
+        img.onload = function () {
+            deckEl.querySelector("img").src = drawnCard.image
+        }
+        img.src = drawnCard.image
+    }
 }
 
 function updateEventListener(deckEl) {
     deckEl.addEventListener("click", cardsInDeck ? drawNextCard : resetGame)
 }
 
-function determineImageSource() {
-    return cardsInDeck === 0
-        ? "null.png"
-        : drawnCard && drawnCard.image
-        ? drawnCard.image
-        : "Back.png"
-}
-
 function generateText() {
     return cardsInDeck
-        ? `<p>Click to<br>draw a card<span class="remaining">${
-              cardsInDeck - 1
-          } remaining</span></p>`
+        ? `<p>Click to<br>draw a card<span class="remaining">${cardsInDeck} remaining</span></p>`
         : `<p>You are out of cards.<br><br>Click here to play again.</p>`
 }
 
@@ -166,7 +162,7 @@ function renderCards() {
             } else {
                 const relatedCards = relationships[cardIndex]
                 const areRelatedNull = areRelatedCardsNull(relatedCards)
-                cardImageSrc = areRelatedNull ? card.image : "Back.png"
+                cardImageSrc = areRelatedNull ? card.image : "back.png"
                 cardClass = areRelatedNull ? "card clickable" : "card"
             }
 

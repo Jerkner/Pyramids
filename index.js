@@ -115,7 +115,7 @@ function updateEventListener(deckEl) {
 
 function generateText() {
     return cardsInDeck
-        ? `<p>Click to<br>draw a card<span class="remaining">${cardsInDeck} remaining</span></p>`
+        ? `<p>Click to<br>draw a card<span class="remaining"><span>${cardsInDeck}</span> remaining</span></p>`
         : `<p>You are out of cards.<br><br>Click here to play again.</p>`
 }
 

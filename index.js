@@ -10,70 +10,130 @@ let drawnCard = null
 let cardsInDeck = 24
 
 async function fetchDeck() {
-    const res = await fetch(
-        `https://deckofcardsapi.com/api/deck/new/draw/?count=28`
-    )
-    const data = await res.json()
-
-    cardsArray = data.cards.map((card, index) => ({
-        ...card,
-        value: JSON.parse(convertFaceCards(card.value)),
-        index,
-    }))
-    deckId = data.deck_id
-
-    renderCards()
-    renderDeckCard()
+    const deckData = await fetchCards()
+    if (deckData) {
+        mapCardData(deckData)
+        await drawFirstCard() // Draw the first card explicitly
+        renderCards()
+        renderDeckCard()
+    }
 }
 
-async function drawNextCard() {
-    drawnCard = { image: "back.png" }
-
-    renderDeckCard()
-
+async function drawFirstCard() {
     try {
         const res = await fetch(
             `https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`
         )
         const data = await res.json()
-
-        drawnCard = data.cards[0]
-        drawnCard.value = convertFaceCards(drawnCard.value)
-
+        updateDrawnCard(data)
         cardsInDeck -= 1
-        renderDeckCard()
+    } catch (error) {
+        handleCardError(error)
+    }
+}
+
+async function fetchCards() {
+    try {
+        const res = await fetch(
+            `https://deckofcardsapi.com/api/deck/new/draw/?count=28`
+        )
+        return await res.json()
+    } catch (error) {
+        console.error("Error fetching deck:", error)
+        return null
+    }
+}
+
+function mapCardData(data) {
+    if (data) {
+        cardsArray = data.cards.map((card, index) => ({
+            ...card,
+            value: JSON.parse(convertFaceCards(card.value)),
+            index,
+        }))
+        deckId = data.deck_id
+    }
+}
+
+async function drawNextCard() {
+    drawnCard = { image: "back.png" }
+    try {
+        const cardData = await fetchCard()
+        console.log(cardData)
+        if (cardData) {
+            updateDrawnCard(cardData)
+            cardsInDeck -= 1
+            renderDeckCard()
+        }
+    } catch (error) {
+        handleCardError(error)
+    }
+}
+
+async function fetchCard() {
+    try {
+        const res = await fetch(
+            `https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`
+        )
+        return await res.json()
     } catch (error) {
         console.error("Error fetching card:", error)
+        return null
     }
+}
+
+function updateDrawnCard(data) {
+    if (data && data.cards && data.cards.length > 0) {
+        drawnCard = data.cards[0]
+        drawnCard.value = convertFaceCards(drawnCard.value)
+    }
+}
+
+function handleCardError(error) {
+    console.error("Error fetching card:", error)
 }
 
 function renderDeckCard() {
     const deckEl = document.getElementById("deck")
+    updateEventListener(deckEl)
+    const imageSrc = determineImageSource()
+    const pText = generateText()
+    const cardHtml = generateCardHtml(imageSrc, pText)
+    handleDeckState(deckEl)
+    deckEl.innerHTML = cardHtml
+}
+
+function updateEventListener(deckEl) {
     deckEl.addEventListener("click", cardsInDeck ? drawNextCard : resetGame)
+}
 
-    const imageSrc =
-        cardsInDeck === 0
-            ? "null.png"
-            : drawnCard && drawnCard.image
-            ? drawnCard.image
-            : "Back.png"
+function determineImageSource() {
+    return cardsInDeck === 0
+        ? "null.png"
+        : drawnCard && drawnCard.image
+        ? drawnCard.image
+        : "Back.png"
+}
 
-    const pText = cardsInDeck
+function generateText() {
+    return cardsInDeck
         ? `<p>Click to<br>draw a card<span class="remaining">${
               cardsInDeck - 1
           } remaining</span></p>`
         : `<p>You are out of cards.<br><br>Click here to play again.</p>`
-    const cardHtml = `<div class="card deck-card">
-                        ${pText}
-                        <img src="${imageSrc}" />
-                      </div>
-                    `
+}
 
+function generateCardHtml(imageSrc, pText) {
+    return `<div class="card deck-card">
+                ${pText}
+                <img src="${imageSrc}" />
+            </div>`
+}
+
+function handleDeckState(deckEl) {
     if (cardsInDeck === 0) {
         deckEl.classList.add("overflow-hidden")
     }
-
-    deckEl.innerHTML = cardHtml
 }
 
 function renderCards() {

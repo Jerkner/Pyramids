@@ -110,7 +110,6 @@ function renderDeckCard() {
 
 function updateEventListener(deckEl) {
     deckEl.addEventListener("click", cardsInDeck ? drawNextCard : resetGame)
-    console.log(cardsInDeck)
 }
 
 function generateText() {

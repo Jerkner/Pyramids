@@ -25,8 +25,8 @@ async function drawFirstCard() {
             `https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`
         )
         const data = await res.json()
-        updateDrawnCard(data)
         cardsInDeck = data.remaining
+        updateDrawnCard(data)
     } catch (error) {
         handleCardError(error)
     }
@@ -84,7 +84,6 @@ function updateDrawnCard(data) {
     if (data && data.cards && data.cards.length > 0) {
         drawnCard = data.cards[0]
         drawnCard.value = convertFaceCards(drawnCard.value)
-        // renderDeckCard() // Update the deck card immediately with a placeholder
     }
 }
 
@@ -97,7 +96,7 @@ function renderDeckCard() {
     updateEventListener(deckEl)
     const pText = generateText()
     const cardHtml = generateCardHtml("blank.png", pText)
-    handleDeckState(deckEl)
+    // handleDeckState(deckEl)
     deckEl.innerHTML = cardHtml
 
     if (drawnCard && drawnCard.image) {
@@ -111,6 +110,7 @@ function renderDeckCard() {
 
 function updateEventListener(deckEl) {
     deckEl.addEventListener("click", cardsInDeck ? drawNextCard : resetGame)
+    console.log(cardsInDeck)
 }
 
 function generateText() {
@@ -127,7 +127,7 @@ function generateCardHtml(imageSrc, pText) {
 }
 
 function handleDeckState(deckEl) {
-    if (cardsInDeck === 0) {
+    if (cardsInDeck === -1) {
         deckEl.classList.add("overflow-hidden")
     }
 }
@@ -248,8 +248,6 @@ document.addEventListener("click", function (event) {
     }
 })
 
-fetchDeck()
-
 function resetGame() {
     location.reload()
 }
@@ -266,3 +264,5 @@ function checkWin() {
         restartBtn.addEventListener("click", resetGame)
     }
 }
+
+fetchDeck()

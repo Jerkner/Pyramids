@@ -1,6 +1,5 @@
 const mainEl = document.getElementById("main")
 const rulesEl = document.getElementById("rules")
-const restartEl = document.getElementById("restart")
 const cardContainerEl = document.getElementById("cardContainer")
 import relationships from "./relationships.js"
 import convertFaceCards from "./utils.js"
@@ -125,13 +124,15 @@ function generateCardHtml(imageSrc, pText) {
             </div>`
 }
 
+const restartBtnHTML = `<button class="btn" id="restartBtn">
+            Restart game
+        </button>`
+
 function renderCards() {
     let rowsHTML = `
     <div id="deck" class="deck-class"></div>
     <div class="buttons">
-        <button class="btn" id="restartBtn">
-            Restart game
-        </button>
+        ${restartBtnHTML}
         <button class="btn" id="rulesBtn">
             Rules
         </button>
@@ -247,15 +248,12 @@ function resetGame() {
 }
 
 function checkWin() {
-    if (cardsArray.filter((card) => card !== null).length == 0) {
+    if (cardsArray.filter((card) => card !== null).length == 25) {
         mainEl.innerHTML = `<div class="win">
             <h1>Congratulations!</h1>
             <p>You won with ${cardsInDeck} cards left in the deck!</p>
-            <button class="btn restart-btn" id="restartBtn">Click here to play again!</button>
+            ${restartBtnHTML}
         </div>`
-
-        const restartBtn = document.getElementById("restartBtn")
-        restartBtn.addEventListener("click", resetGame)
     }
 }
 

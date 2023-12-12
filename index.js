@@ -1,5 +1,6 @@
 const mainEl = document.getElementById("main")
 const rulesEl = document.getElementById("rules")
+const restartEl = document.getElementById("restart")
 const cardContainerEl = document.getElementById("cardContainer")
 import relationships from "./relationships.js"
 import convertFaceCards from "./utils.js"
@@ -96,7 +97,6 @@ function renderDeckCard() {
     updateEventListener(deckEl)
     const pText = generateText()
     const cardHtml = generateCardHtml("blank.png", pText)
-    // handleDeckState(deckEl)
     deckEl.innerHTML = cardHtml
 
     if (drawnCard && drawnCard.image) {
@@ -125,17 +125,11 @@ function generateCardHtml(imageSrc, pText) {
             </div>`
 }
 
-function handleDeckState(deckEl) {
-    if (cardsInDeck === -1) {
-        deckEl.classList.add("overflow-hidden")
-    }
-}
-
 function renderCards() {
     let rowsHTML = `
     <div id="deck" class="deck-class"></div>
     <div class="buttons">
-        <button class="btn" onClick="location.reload()">
+        <button class="btn" id="restartBtn">
             Restart game
         </button>
         <button class="btn" id="rulesBtn">
@@ -177,6 +171,7 @@ function renderCards() {
     cardContainerEl.innerHTML = rowsHTML
     const rulesBtn = document.getElementById("rulesBtn")
     rulesBtn.addEventListener("click", toggleRules)
+    restartBtn.addEventListener("click", fetchDeck)
 
     cardContainerEl.addEventListener("click", function (event) {
         const cardIndex = parseInt(event.target.dataset.cardIndex)
@@ -248,7 +243,7 @@ document.addEventListener("click", function (event) {
 })
 
 function resetGame() {
-    location.reload()
+    fetchDeck()
 }
 
 function checkWin() {

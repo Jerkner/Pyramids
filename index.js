@@ -123,16 +123,13 @@ function generateCardHtml(imageSrc, pText) {
                 <img src="${imageSrc}" />
             </div>`
 }
-
-const restartBtnHTML = `<button class="btn" id="restartBtn">
-            Restart game
-        </button>`
-
 function renderCards() {
     let rowsHTML = `
     <div id="deck" class="deck-class"></div>
     <div class="buttons">
-        ${restartBtnHTML}
+        <button class="btn" onClick="location.reload()">
+            Restart game
+        </button>
         <button class="btn" id="rulesBtn">
             Rules
         </button>
@@ -172,7 +169,6 @@ function renderCards() {
     cardContainerEl.innerHTML = rowsHTML
     const rulesBtn = document.getElementById("rulesBtn")
     rulesBtn.addEventListener("click", toggleRules)
-    restartBtn.addEventListener("click", fetchDeck)
 
     cardContainerEl.addEventListener("click", function (event) {
         const cardIndex = parseInt(event.target.dataset.cardIndex)
@@ -244,7 +240,7 @@ document.addEventListener("click", function (event) {
 })
 
 function resetGame() {
-    fetchDeck()
+    location.reload()
 }
 
 function checkWin() {
@@ -252,8 +248,11 @@ function checkWin() {
         mainEl.innerHTML = `<div class="win">
             <h1>Congratulations!</h1>
             <p>You won with ${cardsInDeck} cards left in the deck!</p>
-            ${restartBtnHTML}
+            <button class="btn restart-btn" id="restartBtn">Click here to play again!</button>
         </div>`
+
+        const restartBtn = document.getElementById("restartBtn")
+        restartBtn.addEventListener("click", resetGame)
     }
 }
 

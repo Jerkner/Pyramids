@@ -65,8 +65,8 @@ img {
     height: 100%;
 }
 
-#deck {
-    max-width: min-content;
+#deck img {
+    width: min-content;
 }
 
 .deck-card {

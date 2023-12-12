@@ -120,7 +120,7 @@ function generateText() {
 function generateCardHtml(imageSrc, pText) {
     return `<div class="card deck-card">
                 ${pText}
-                <img src="${imageSrc}" />
+                <img class="card deck-drawn-card" src="${imageSrc}" />
             </div>`
 }
 function renderCards() {

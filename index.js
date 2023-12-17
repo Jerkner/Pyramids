@@ -5,7 +5,7 @@ import relationships from "./relationships.js"
 import convertFaceCards from "./utils.js"
 
 let cardsArray = []
-let deckId = ""
+let deckArray = []
 let drawnCard = null
 let cardsInDeck = null
 
@@ -13,29 +13,26 @@ async function fetchDeck() {
     const deckData = await fetchCards()
     if (deckData) {
         mapCardData(deckData)
-        await drawFirstCard()
+        cardsArray = deckData.cards.slice(0, 28).map((card, index) => ({
+            ...card,
+            value: JSON.parse(convertFaceCards(card.value)),
+            index,
+        }))
+        deckArray = deckData.cards.slice(28).map((card, index) => ({
+            ...card,
+            value: JSON.parse(convertFaceCards(card.value)),
+            index: index + 28,
+        }))
         renderCards()
+        drawNextCard()
         renderDeckCard()
-    }
-}
-
-async function drawFirstCard() {
-    try {
-        const res = await fetch(
-            `https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`
-        )
-        const data = await res.json()
-        cardsInDeck = data.remaining
-        updateDrawnCard(data)
-    } catch (error) {
-        handleCardError(error)
     }
 }
 
 async function fetchCards() {
     try {
         const res = await fetch(
-            `https://deckofcardsapi.com/api/deck/new/draw/?count=28`
+            `https://deckofcardsapi.com/api/deck/new/draw/?count=52`
         )
         return await res.json()
     } catch (error) {
@@ -51,38 +48,28 @@ function mapCardData(data) {
             value: JSON.parse(convertFaceCards(card.value)),
             index,
         }))
-        deckId = data.deck_id
+        deckArray = [...cardsArray]
     }
 }
 
 async function drawNextCard() {
     try {
-        const cardData = await fetchCard()
-        if (cardData) {
-            updateDrawnCard(cardData)
-            cardsInDeck = cardData.remaining
-            renderDeckCard()
+        if (deckArray.length === 0) {
+            console.error("No more cards in the deck array.")
+            return
         }
+        const cardData = deckArray.pop()
+        updateDrawnCard(cardData)
+        cardsInDeck = deckArray.length
+        renderDeckCard()
     } catch (error) {
         handleCardError(error)
     }
 }
 
-async function fetchCard() {
-    try {
-        const res = await fetch(
-            `https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`
-        )
-        return await res.json()
-    } catch (error) {
-        console.error("Error fetching card:", error)
-        return null
-    }
-}
-
-function updateDrawnCard(data) {
-    if (data && data.cards && data.cards.length > 0) {
-        drawnCard = data.cards[0]
+function updateDrawnCard() {
+    if (deckArray && deckArray.length > 0) {
+        drawnCard = { ...deckArray[deckArray.length - 1] }
         drawnCard.value = convertFaceCards(drawnCard.value)
     }
 }
@@ -95,15 +82,13 @@ function renderDeckCard() {
     const deckEl = document.getElementById("deck")
     updateEventListener(deckEl)
     const pText = generateText()
-    const cardHtml = generateCardHtml("blank.png", pText)
-    deckEl.innerHTML = cardHtml
 
-    if (drawnCard && drawnCard.image) {
-        const img = new Image()
-        img.onload = function () {
-            deckEl.querySelector("img").src = drawnCard.image
-        }
-        img.src = drawnCard.image
+    if (cardsInDeck > 0 && drawnCard && drawnCard.image) {
+        const cardHtml = generateCardHtml(drawnCard.image, pText)
+        deckEl.innerHTML = cardHtml
+    } else {
+        const cardHtml = generateCardHtml("null.png", pText)
+        deckEl.innerHTML = cardHtml
     }
 }
 
@@ -120,9 +105,14 @@ function generateText() {
 function generateCardHtml(imageSrc, pText) {
     return `<div class="card deck-card">
                 ${pText}
-                <img class="card deck-drawn-card" src="${imageSrc}" />
+                ${
+                    cardsInDeck > 0
+                        ? `<img class="card deck-drawn-card" src="${imageSrc}" />`
+                        : ""
+                }
             </div>`
 }
+
 function renderCards() {
     let rowsHTML = `
     <div id="deck" class="deck-class"></div>

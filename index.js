@@ -13,12 +13,28 @@ async function fetchDeck() {
     const deckData = await fetchCards()
     if (deckData) {
         mapCardData(deckData)
+<<<<<<< HEAD
         await drawFirstCard()
         renderCards()
+=======
+        cardsArray = deckData.cards.slice(0, 28).map((card, index) => ({
+            ...card,
+            value: JSON.parse(convertFaceCards(card.value)),
+            index,
+        }))
+        deckArray = deckData.cards.slice(28).map((card, index) => ({
+            ...card,
+            value: JSON.parse(convertFaceCards(card.value)),
+            index: index + 28,
+        }))
+        renderCards()
+        drawNextCard()
+>>>>>>> parent of 25b7ad9 (Update index.js)
         renderDeckCard()
     }
 }
 
+<<<<<<< HEAD
 async function drawFirstCard() {
     try {
         const res = await fetch(
@@ -32,6 +48,8 @@ async function drawFirstCard() {
     }
 }
 
+=======
+>>>>>>> parent of 25b7ad9 (Update index.js)
 async function fetchCards() {
     try {
         const res = await fetch(
@@ -63,6 +81,13 @@ async function drawNextCard() {
             cardsInDeck = cardData.remaining
             renderDeckCard()
         }
+<<<<<<< HEAD
+=======
+        const cardData = deckArray.pop()
+        updateDrawnCard(cardData)
+        cardsInDeck = deckArray.length
+        renderDeckCard()
+>>>>>>> parent of 25b7ad9 (Update index.js)
     } catch (error) {
         handleCardError(error)
     }

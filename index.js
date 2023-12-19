@@ -13,10 +13,6 @@ async function fetchDeck() {
     const deckData = await fetchCards()
     if (deckData) {
         mapCardData(deckData)
-<<<<<<< HEAD
-        await drawFirstCard()
-        renderCards()
-=======
         cardsArray = deckData.cards.slice(0, 28).map((card, index) => ({
             ...card,
             value: JSON.parse(convertFaceCards(card.value)),
@@ -29,8 +25,20 @@ async function fetchDeck() {
         }))
         renderCards()
         drawNextCard()
->>>>>>> parent of 25b7ad9 (Update index.js)
         renderDeckCard()
+    }
+}
+
+async function drawFirstCard() {
+    try {
+        const res = await fetch(
+            `https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`
+        )
+        const data = await res.json()
+        cardsInDeck = data.remaining
+        updateDrawnCard(data)
+    } catch (error) {
+        handleCardError(error)
     }
 }
 
@@ -75,19 +83,14 @@ function mapCardData(data) {
 
 async function drawNextCard() {
     try {
-        const cardData = await fetchCard()
-        if (cardData) {
-            updateDrawnCard(cardData)
-            cardsInDeck = cardData.remaining
-            renderDeckCard()
+        if (deckArray.length === 0) {
+            console.error("No more cards in the deck array.")
+            return
         }
-<<<<<<< HEAD
-=======
         const cardData = deckArray.pop()
         updateDrawnCard(cardData)
         cardsInDeck = deckArray.length
         renderDeckCard()
->>>>>>> parent of 25b7ad9 (Update index.js)
     } catch (error) {
         handleCardError(error)
     }

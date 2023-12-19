@@ -32,35 +32,6 @@ async function drawFirstCard() {
     }
 }
 
-async function drawFirstCard() {
-    try {
-        const res = await fetch(
-            `https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`
-        )
-        const data = await res.json()
-        cardsInDeck = data.remaining
-        updateDrawnCard(data)
-    } catch (error) {
-        handleCardError(error)
-    }
-}
-
-<<<<<<< HEAD
-async function drawFirstCard() {
-    try {
-        const res = await fetch(
-            `https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`
-        )
-        const data = await res.json()
-        cardsInDeck = data.remaining
-        updateDrawnCard(data)
-    } catch (error) {
-        handleCardError(error)
-    }
-}
-
-=======
->>>>>>> parent of 25b7ad9 (Update index.js)
 async function fetchCards() {
     try {
         const res = await fetch(

@@ -93,6 +93,12 @@ img {
     box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
 }
 
+.remaining span {
+    display: flex;
+    flex-direction: column;
+    font-size: 2em;
+}
+
 /* Buttons */
 
 .buttons {
@@ -250,11 +256,6 @@ img {
 
     .deck-card p {
         font-size: 1.66vw;
-    }
-
-    .remaining {
-        display: flex;
-        flex-direction: column;
     }
 
     .rules-modal p {

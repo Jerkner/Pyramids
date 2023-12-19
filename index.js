@@ -9,24 +9,56 @@ let deckArray = []
 let drawnCard = null
 let cardsInDeck = null
 
-async function fetchDeck() {
-    const deckData = await fetchCards()
-    if (deckData) {
-        mapCardData(deckData)
-        cardsArray = deckData.cards.slice(0, 28).map((card, index) => ({
-            ...card,
-            value: JSON.parse(convertFaceCards(card.value)),
-            index,
-        }))
-        deckArray = deckData.cards.slice(28).map((card, index) => ({
-            ...card,
-            value: JSON.parse(convertFaceCards(card.value)),
-            index: index + 28,
-        }))
-        renderCards()
-        drawNextCard()
-        renderDeckCard()
+async function fetchDeckAndPreload() {
+    try {
+        const res = await fetch(
+            `https://deckofcardsapi.com/api/deck/new/draw/?count=52`
+        )
+        const deckData = await res.json()
+
+        if (deckData) {
+            // Preload the card images
+            await preloadCardImages(deckData.cards)
+
+            mapCardData(deckData)
+            cardsArray = deckData.cards.slice(0, 28).map((card, index) => ({
+                ...card,
+                value: JSON.parse(convertFaceCards(card.value)),
+                index,
+            }))
+            deckArray = deckData.cards.slice(28).map((card, index) => ({
+                ...card,
+                value: JSON.parse(convertFaceCards(card.value)),
+                index: index + 28,
+            }))
+            renderCards()
+            drawNextCard()
+            renderDeckCard()
+        }
+    } catch (error) {
+        console.error("Error fetching deck:", error)
     }
+}
+
+async function preloadCardImages(cards) {
+    const cardImages = cards.map(
+        (card) =>
+            new Promise((resolve, reject) => {
+                const img = new Image()
+                img.onload = resolve
+                img.onerror = reject
+                img.src = card.image
+            })
+    )
+    await Promise.all(cardImages)
+    console.log("All card images have been preloaded.")
+}
+
+// The rest of your existing code...
+
+// Trigger the fetch and preload function when the page loads
+window.onload = () => {
+    fetchDeckAndPreload()
 }
 
 async function fetchCards() {
@@ -34,6 +66,7 @@ async function fetchCards() {
         const res = await fetch(
             `https://deckofcardsapi.com/api/deck/new/draw/?count=52`
         )
+        console.log("fetch")
         return await res.json()
     } catch (error) {
         console.error("Error fetching deck:", error)
@@ -61,6 +94,7 @@ async function drawNextCard() {
         const cardData = deckArray.pop()
         updateDrawnCard(cardData)
         cardsInDeck = deckArray.length
+        console.log(deckArray)
         renderDeckCard()
     } catch (error) {
         handleCardError(error)

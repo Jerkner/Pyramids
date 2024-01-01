@@ -65,6 +65,10 @@ img {
     height: 100%;
 }
 
+#deck {
+    width: min-content;
+}
+
 #deck img {
     width: min-content;
 }
@@ -74,6 +78,11 @@ img {
     cursor: pointer;
     gap: 5px;
     box-shadow: none;
+    border-radius: 7px;
+}
+
+.deck-drawn-card {
+    border-radius: 7px;
 }
 
 .deck-card p {

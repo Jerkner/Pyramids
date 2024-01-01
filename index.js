@@ -125,7 +125,7 @@ function generateCardHtml(imageSrc, pText) {
 }
 function renderCards() {
     let rowsHTML = `
-    <div id="deck" class="deck-class"></div>
+    <div id="deck"></div>
     <div class="buttons">
         <button class="btn" onClick="location.reload()">
             Restart game

@@ -1,13 +1,26 @@
-const mainEl = document.getElementById("main")
-const rulesEl = document.getElementById("rules")
-const cardContainerEl = document.getElementById("cardContainer")
 import relationships from "./relationships.js"
 import convertFaceCards from "./utils.js"
+const mainEl = document.getElementById("main")
+const rulesEl = document.getElementById("rules")
+const highScoresEl = document.getElementById("highScores")
+const cardContainerEl = document.getElementById("cardContainer")
 
 let cardsArray = []
 let deckId = ""
 let drawnCard = null
 let cardsInDeck = null
+
+let highScoreArray = []
+
+fetch("http://localhost:3000/highscores")
+    .then((response) => response.json())
+    .then((data) => {
+        console.log(data)
+        highScoreArray = data
+    })
+    .catch((error) => {
+        console.error("Error fetching high scores:", error)
+    })
 
 async function fetchDeck() {
     const deckData = await fetchCards()
@@ -130,6 +143,9 @@ function renderCards() {
         <button class="btn" onClick="location.reload()">
             Restart game
         </button>
+        <button class="btn" id="highScoresBtn">
+            High scores
+        </button>
         <button class="btn" id="rulesBtn">
             Rules
         </button>
@@ -169,6 +185,8 @@ function renderCards() {
     cardContainerEl.innerHTML = rowsHTML
     const rulesBtn = document.getElementById("rulesBtn")
     rulesBtn.addEventListener("click", toggleRules)
+    const highScoresBtn = document.getElementById("highScoresBtn")
+    highScoresBtn.addEventListener("click", toggleHighScores)
 
     cardContainerEl.addEventListener("click", function (event) {
         const cardIndex = parseInt(event.target.dataset.cardIndex)
@@ -221,7 +239,7 @@ function toggleRules(event) {
     event.stopPropagation()
 
     const rulesHTML = `
-        <div class="rules-modal">
+        <div class="rules modal">
             <p>
                 Clear all cards in the pyramid by playing cards adjacent by 1 (higher or lower) than the face-up card; reveal face-down cards by playing the cards overlapping them. Ace can be both high and low.<br><br>If there are no valid plays in the pyramid, draw from the pile for a new card.
             </p>
@@ -229,13 +247,49 @@ function toggleRules(event) {
     `
 
     if (!rulesEl.contains(event.target)) {
+        closeAllModals()
         rulesEl.innerHTML = rulesEl.innerHTML ? "" : rulesHTML
     }
+}
+
+function toggleHighScores(event) {
+    event.stopPropagation()
+    const highScoresHTML = `
+    <div class="high-scores modal">
+    <h2>High scores</h2>
+    <p class="scores-header">Cards left in deck:</p>
+        ${highScoreArray
+            .map(
+                (entry, index) => `
+            <div class="high-score-entry">
+                <p>${index + 1}.  ${entry.playerName}</p>
+                <p class="score">${entry.score}</p>
+            </div>
+        `
+            )
+            .join("")}
+    </div>
+`
+
+    if (!highScoresEl.contains(event.target)) {
+        closeAllModals()
+        highScoresEl.innerHTML = highScoresEl.innerHTML ? "" : highScoresHTML
+    }
+}
+
+function closeAllModals() {
+    rulesEl.innerHTML = ""
+    highScoresEl.innerHTML = ""
 }
 
 document.addEventListener("click", function (event) {
     if (rulesEl.innerHTML && !rulesEl.contains(event.target)) {
         rulesEl.innerHTML = ""
+    }
+})
+document.addEventListener("click", function (event) {
+    if (highScoresEl.innerHTML && !highScoresEl.contains(event.target)) {
+        highScoresEl.innerHTML = ""
     }
 })
 
@@ -244,15 +298,55 @@ function resetGame() {
 }
 
 function checkWin() {
-    if (cardsArray.filter((card) => card !== null).length == 0) {
+    if (cardsArray.filter((card) => card !== null).length == 26) {
         mainEl.innerHTML = `<div class="win">
             <h1>Congratulations!</h1>
             <p>You won with ${cardsInDeck} cards left in the deck!</p>
-            <button class="btn restart-btn" id="restartBtn">Click here to play again!</button>
+            <p>Add your name to the high scores!</p>
+            <input type="text"
+                maxlength="12"
+                id="playerNameInput"
+                placeholder="Enter your name" 
+                required
+            />
+            <button class="btn" id="addScoreBtn">Add to High Scores</button>
+            <button class="btn" id="restartBtn">Click here to play again!</button>
         </div>`
+
+        const playerNameInput = document.getElementById("playerNameInput")
+        playerNameInput.focus()
+
+        const addScoreBtn = document.getElementById("addScoreBtn")
+        addScoreBtn.addEventListener("click", addToHighScores)
 
         const restartBtn = document.getElementById("restartBtn")
         restartBtn.addEventListener("click", resetGame)
+    }
+}
+
+async function addToHighScores() {
+    const playerName = document.getElementById("playerNameInput").value
+    if (playerName.length > 0) {
+        try {
+            const response = await fetch("http://localhost:3000/add-score", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ playerName, score: cardsInDeck }),
+            })
+
+            if (response.ok) {
+                console.log("Score added to high scores!")
+            } else {
+                console.error("Failed to add score to high scores!")
+            }
+        } catch (error) {
+            console.error("Error adding score:", error)
+        }
+        resetGame()
+    } else {
+        alert("Please enter your name!")
     }
 }
 

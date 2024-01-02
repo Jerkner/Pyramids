@@ -336,6 +336,7 @@ async function addToHighScores() {
             })
 
             if (response.ok) {
+                console.log("Score added to high scores!")
             } else {
                 console.error("Failed to add score to high scores!")
             }

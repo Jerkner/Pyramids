@@ -15,7 +15,6 @@ let highScoreArray = []
 fetch("http://localhost:3000/highscores")
     .then((response) => response.json())
     .then((data) => {
-        console.log(data)
         highScoreArray = data
     })
     .catch((error) => {
@@ -337,7 +336,6 @@ async function addToHighScores() {
             })
 
             if (response.ok) {
-                console.log("Score added to high scores!")
             } else {
                 console.error("Failed to add score to high scores!")
             }

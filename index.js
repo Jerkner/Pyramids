@@ -298,7 +298,7 @@ function resetGame() {
 }
 
 function checkWin() {
-    if (cardsArray.filter((card) => card !== null).length == 26) {
+    if (cardsArray.filter((card) => card !== null).length == 0) {
         mainEl.innerHTML = `<div class="win">
             <h1>Congratulations!</h1>
             <p>You won with ${cardsInDeck} cards left in the deck!</p>

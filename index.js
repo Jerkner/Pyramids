@@ -12,7 +12,7 @@ let cardsInDeck = null
 
 let highScoreArray = []
 
-fetch("http://localhost:3000/highscores")
+fetch("http://https://pyramids-game.netlify.app/pyramids_db")
     .then((response) => response.json())
     .then((data) => {
         highScoreArray = data
@@ -327,13 +327,16 @@ async function addToHighScores() {
     const playerName = document.getElementById("playerNameInput").value
     if (playerName.length > 0) {
         try {
-            const response = await fetch("http://localhost:3000/add-score", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ playerName, score: cardsInDeck }),
-            })
+            const response = await fetch(
+                "https://pyramids-game.netlify.app/add-score",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ playerName, score: cardsInDeck }),
+                }
+            )
 
             if (response.ok) {
                 console.log("Score added to high scores!")

@@ -8,10 +8,13 @@ app.use(cors())
 app.use(express.json())
 
 // MongoDB connection setup
-mongoose.connect("mongodb://localhost:27017/pyramids_db", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
+mongoose.connect(
+    "mongodb+srv://jerkphil:j7wwDW1T3a6okZ79@cluster0.astzfya.mongodb.net/pyramids_db",
+    {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    }
+)
 
 // Endpoint to fetch high scores
 app.get("/highscores", async (req, res) => {

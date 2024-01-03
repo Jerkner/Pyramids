@@ -12,10 +12,10 @@ let cardsInDeck = null
 
 let highScoreArray = []
 
-fetch("https://pyramids-game.netlify.app/pyramids_db")
+fetch("https://pyramids-game.netlify.app/highscores") // Corrected backend endpoint URL
     .then((response) => response.json())
     .then((data) => {
-        highScoreArray = data
+        // Process the fetched data
     })
     .catch((error) => {
         console.error("Error fetching high scores:", error)

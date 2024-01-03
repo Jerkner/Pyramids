@@ -1,3 +1,6 @@
+require("dotenv").config() // Load environment variables from .env file
+const dbConnectionString = process.env.DB_CONNECTION_STRING
+
 const express = require("express")
 const mongoose = require("mongoose")
 const cors = require("cors")
@@ -8,13 +11,15 @@ app.use(cors())
 app.use(express.json())
 
 // MongoDB connection setup
-mongoose.connect(
-    "mongodb+srv://jerkphil:j7wwDW1T3a6okZ79@cluster0.astzfya.mongodb.net/pyramids_db",
-    {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    }
-)
+mongoose.connect(dbConnectionString, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
+
+// mongoose.connect(dbConnectionStringy, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+// })
 
 // Endpoint to fetch high scores
 app.get("/highscores", async (req, res) => {

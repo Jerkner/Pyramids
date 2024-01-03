@@ -12,7 +12,7 @@ let cardsInDeck = null
 
 let highScoreArray = []
 
-fetch("http://localhost:3000/highscores")
+fetch("https://pyramids-game.netlify.app/highscores")
     .then((response) => response.json())
     .then((data) => {
         highScoreArray = data
@@ -297,7 +297,7 @@ function resetGame() {
 }
 
 function checkWin() {
-    if (cardsArray.filter((card) => card !== null).length == 0) {
+    if (cardsArray.filter((card) => card !== null).length == 27) {
         mainEl.innerHTML = `<div class="win">
             <h1>Congratulations!</h1>
             <p>You won with ${cardsInDeck} cards left in the deck!</p>

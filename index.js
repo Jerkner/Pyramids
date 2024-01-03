@@ -12,7 +12,7 @@ let cardsInDeck = null
 
 let highScoreArray = []
 
-fetch("https://pyramids-game.netlify.app/highscores")
+fetch("https://pyramids-game.netlify.app/pyramids_db")
     .then((response) => response.json())
     .then((data) => {
         highScoreArray = data

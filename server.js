@@ -12,7 +12,10 @@ app.use(express.json())
 
 // Content Security Policy middleware
 app.use((req, res, next) => {
-    res.setHeader("Content-Security-Policy", "default-src 'self' data:")
+    res.setHeader(
+        "Content-Security-Policy",
+        "default-src 'self' data:; style-src 'self' https://fonts.googleapis.com; connect-src 'self' https://deckofcardsapi.com"
+    )
     next()
 })
 

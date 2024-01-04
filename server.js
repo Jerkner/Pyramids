@@ -22,6 +22,11 @@ mongoose.connect(dbConnectionString, {
     useUnifiedTopology: true,
 })
 
+// Route for the root URL - Welcome message
+app.get("/", (req, res) => {
+    res.send("Welcome to the Pyramids game!")
+})
+
 // Endpoint to fetch high scores
 app.get("/highscores", async (req, res) => {
     try {

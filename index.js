@@ -107,7 +107,7 @@ function renderDeckCard() {
     const deckEl = document.getElementById("deck")
     updateEventListener(deckEl)
     const pText = generateText()
-    const cardHtml = generateCardHtml("blank.png", pText)
+    const cardHtml = generateDeckCardHtml("blank.png", pText)
     deckEl.innerHTML = cardHtml
 
     if (drawnCard && drawnCard.image) {
@@ -129,12 +129,13 @@ function generateText() {
         : `<p>You are out of cards.<br><br>Click here to play again.</p>`
 }
 
-function generateCardHtml(imageSrc, pText) {
+function generateDeckCardHtml(imageSrc, pText) {
     return `<div class="card deck-card">
                 ${pText}
                 <img class="card deck-drawn-card" src="${imageSrc}" />
             </div>`
 }
+
 function renderCards() {
     let rowsHTML = `
     <div id="deck"></div>

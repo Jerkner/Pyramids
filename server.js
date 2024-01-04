@@ -26,11 +26,11 @@ mongoose.connect(dbConnectionString, {
 })
 
 // Serve static files from the root directory
-app.use(express.static(__dirname)) // Assumes files are in the same directory as server.js
+app.use(express.static(__dirname))
 
-// Route for the root URL - Will serve the index.html or default file
+// Route for the root URL
 app.get("/", (req, res) => {
-    res.sendFile(__dirname + "/index.html") // Change "index.html" to your main HTML file
+    res.sendFile(__dirname + "/index.html")
 })
 
 // Endpoint to fetch high scores

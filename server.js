@@ -22,6 +22,9 @@ mongoose.connect(dbConnectionString, {
     useUnifiedTopology: true,
 })
 
+// Serve static files from the 'public' directory
+app.use(express.static("public"))
+
 // Route for the root URL - Welcome message
 app.get("/", (req, res) => {
     res.send("Welcome to the Pyramids game!")

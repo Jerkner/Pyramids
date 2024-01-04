@@ -1,3 +1,4 @@
+require("dotenv").config()
 const dbConnectionString = process.env.RENDER_DB_CONNECTION_STRING
 
 const express = require("express")
@@ -8,6 +9,12 @@ const HighScore = require("./HighScores")
 const app = express()
 app.use(cors())
 app.use(express.json())
+
+// Content Security Policy middleware
+app.use((req, res, next) => {
+    res.setHeader("Content-Security-Policy", "default-src 'self' data:")
+    next()
+})
 
 // MongoDB connection setup
 mongoose.connect(dbConnectionString, {

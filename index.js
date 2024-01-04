@@ -37,6 +37,7 @@ async function drawFirstCard() {
             `https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`
         )
         const data = await res.json()
+        console.log(data)
         cardsInDeck = data.remaining
         updateDrawnCard(data)
     } catch (error) {

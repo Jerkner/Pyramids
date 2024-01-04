@@ -14,7 +14,7 @@ app.use(express.json())
 app.use((req, res, next) => {
     res.setHeader(
         "Content-Security-Policy",
-        "default-src 'self' data:; style-src 'self' https://fonts.googleapis.com; connect-src 'self' https://deckofcardsapi.com"
+        "default-src 'self' data:; style-src 'self' https://fonts.googleapis.com; connect-src 'self' https://deckofcardsapi.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://deckofcardsapi.com"
     )
     next()
 })

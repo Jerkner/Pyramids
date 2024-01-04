@@ -22,12 +22,12 @@ mongoose.connect(dbConnectionString, {
     useUnifiedTopology: true,
 })
 
-// Serve static files from the 'public' directory
-app.use(express.static("public"))
+// Serve static files from the root directory
+app.use(express.static(__dirname)) // Assumes files are in the same directory as server.js
 
-// Route for the root URL - Welcome message
+// Route for the root URL - Will serve the index.html or default file
 app.get("/", (req, res) => {
-    res.send("Welcome to the Pyramids game!")
+    res.sendFile(__dirname + "/index.html") // Change "index.html" to your main HTML file
 })
 
 // Endpoint to fetch high scores

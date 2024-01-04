@@ -1,5 +1,4 @@
-require("dotenv").config() // Load environment variables from .env file
-const dbConnectionString = process.env.DB_CONNECTION_STRING
+const dbConnectionString = process.env.RENDER_DB_CONNECTION_STRING
 
 const express = require("express")
 const mongoose = require("mongoose")
@@ -15,11 +14,6 @@ mongoose.connect(dbConnectionString, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
-
-// mongoose.connect(dbConnectionStringy, {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-// })
 
 // Endpoint to fetch high scores
 app.get("/highscores", async (req, res) => {

@@ -139,7 +139,7 @@ function renderCards() {
     let rowsHTML = `
     <div id="deck"></div>
     <div class="buttons">
-        <button class="btn" onClick="location.reload()">
+        <button class="btn" id="restart">
             Restart game
         </button>
         <button class="btn" id="highScoresBtn">
@@ -182,10 +182,15 @@ function renderCards() {
     }
 
     cardContainerEl.innerHTML = rowsHTML
+
     const rulesBtn = document.getElementById("rulesBtn")
     rulesBtn.addEventListener("click", toggleRules)
+
     const highScoresBtn = document.getElementById("highScoresBtn")
     highScoresBtn.addEventListener("click", toggleHighScores)
+
+    const restartEl = document.getElementById("restart")
+    restartEl.addEventListener("click", resetGame)
 
     cardContainerEl.addEventListener("click", function (event) {
         const cardIndex = parseInt(event.target.dataset.cardIndex)
@@ -276,6 +281,10 @@ function toggleHighScores(event) {
     }
 }
 
+function resetGame() {
+    location.reload()
+}
+
 function closeAllModals() {
     rulesEl.innerHTML = ""
     highScoresEl.innerHTML = ""
@@ -291,10 +300,6 @@ document.addEventListener("click", function (event) {
         highScoresEl.innerHTML = ""
     }
 })
-
-function resetGame() {
-    location.reload()
-}
 
 function checkWin() {
     if (cardsArray.filter((card) => card !== null).length == 0) {

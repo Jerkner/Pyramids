@@ -35,4 +35,4 @@ The game follows these rules:
 
 ## Contact
 
-For any queries, suggestions or support related to the game, contact me [here.](mailto:philip@jerkner.se).
+For any queries, suggestions or support related to the game, contact me [here](mailto:philip@jerkner.se).

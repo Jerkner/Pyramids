@@ -13,7 +13,11 @@ The game follows these rules:
 
 - **Interactive Gameplay:** Play the Pyramid Solitaire game in your browser.
 - **High Score List:** Track top scores achieved by players.
-- **MongoDB Integration:** Utilizes MongoDB, MongoDB Compass, and MongoDB Atlas for storing and managing high scores.
+- **MongoDB Integration:** Utilizes MongoDB for storing and managing high scores.
+
+### API Used
+
+The game integrates with the [Deck of Cards API](https://deckofcardsapi.com/) for fetching and managing playing cards for the Pyramids Solitaire game.
 
 ## Project Structure
 
@@ -35,4 +39,4 @@ The game follows these rules:
 
 ## Contact
 
-For any queries, suggestions or support related to the game, contact me [here](mailto:philip@jerkner.se).
+For any queries, suggestions, or support related to the game, contact me [here](mailto:philip@jerkner.se).

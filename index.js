@@ -315,7 +315,6 @@ function checkWin() {
                 required
             />
             <button class="btn" id="addScoreBtn">Add to High Scores</button>
-            <button class="btn" id="restartBtn">Click here to play again!</button>
         </div>`
 
         const playerNameInput = document.getElementById("playerNameInput")
@@ -323,9 +322,6 @@ function checkWin() {
 
         const addScoreBtn = document.getElementById("addScoreBtn")
         addScoreBtn.addEventListener("click", addToHighScores)
-
-        const restartBtn = document.getElementById("restartBtn")
-        restartBtn.addEventListener("click", resetGame)
     }
 }
 
